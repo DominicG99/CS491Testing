@@ -8,6 +8,7 @@ const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
 const findOrCreate = require("mongoose-findorcreate");
 const app = express();
+const { MongoClient } = require("mongodb");
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.use(
@@ -24,7 +25,7 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-mongoose.connect("mongodb://localhost:27017/userDB", { useNewUrlParser: true });
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true });
 mongoose.set("useCreateIndex", true);
 const userSchema = new mongoose.Schema({
   email: String,
@@ -47,21 +48,22 @@ passport.deserializeUser(function (id, done) {
   });
 });
 
+//Tested
 app.get("/", function (req, res) {
   res.send("Home Page");
   //res.render("home");
 });
-
+//Tested
 app.get("/login", function (req, res) {
   res.send("Login Page");
   //res.render("login");
 });
-
+//Tested
 app.get("/register", function (req, res) {
   res.send("Register Page");
   //res.render("register");
 });
-
+//Tested
 app.get("/secrets", function (req, res) {
   User.find({ secret: { $ne: null } }, function (err, foundUsers) {
     if (err) {
@@ -73,18 +75,19 @@ app.get("/secrets", function (req, res) {
     }
   });
 });
-
+//Tested
 app.get("/submit", function (req, res) {
   if (req.isAuthenticated()) {
-    res.render("submit");
+    res.send("Authenticated");
+    // res.render("submit");
   } else {
-    res.redirect("/login");
+    res.send("Login Page");
+    // res.redirect("/login");
   }
 });
-
+//Tested
 app.post("/submit", function (req, res) {
   const submittedSecret = req.body.secret;
-
   //Once the user is authenticated and their session gets saved, their user details are saved to req.user.
   // console.log(req.user.id);
 
@@ -101,12 +104,12 @@ app.post("/submit", function (req, res) {
     }
   });
 });
-
+//Tested
 app.get("/logout", function (req, res) {
   req.logout();
   res.redirect("/");
 });
-
+//Tested
 app.post("/register", function (req, res) {
   User.register(
     { username: req.body.username },
@@ -114,7 +117,8 @@ app.post("/register", function (req, res) {
     function (err, user) {
       if (err) {
         console.log(err);
-        res.redirect("/register");
+        res.status(500).send("Something broke!");
+        //res.redirect("/register");
       } else {
         passport.authenticate("local")(req, res, function () {
           res.redirect("/secrets");
@@ -123,7 +127,18 @@ app.post("/register", function (req, res) {
     }
   );
 });
-
+//Tested
+app.post("/delete", function (req, res) {
+  User.deleteOne({ username: req.body.username }, function (err, user) {
+    if (err) {
+      res.status(500).send("Something broke!");
+    } else {
+      req.logout();
+      res.redirect("/");
+    }
+  });
+});
+//Tested
 app.post("/login", function (req, res) {
   const user = new User({
     username: req.body.username,
@@ -133,6 +148,7 @@ app.post("/login", function (req, res) {
   req.login(user, function (err) {
     if (err) {
       console.log(err);
+      res.status(500).send("Something broke!");
     } else {
       passport.authenticate("local")(req, res, function () {
         res.redirect("/secrets");
@@ -140,7 +156,7 @@ app.post("/login", function (req, res) {
     }
   });
 });
-
+//Tested
 app.listen(3000, function () {
   console.log("Server started on port 3000.");
 });
