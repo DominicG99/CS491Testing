@@ -2,7 +2,7 @@ var request = require("request");
 var expect = require("chai").expect;
 var sinon = require("sinon");
 const passport = require("passport");
-const port = process.env.PORT || "http://localhost:3000";
+const port = "https://cs4912021.herokuapp.com/" || "http://localhost:3000";
 //Test Page Views.....
 console.log(port);
 it("Main page content", function (done) {
