@@ -1,0 +1,15 @@
+{
+  "environments": {
+    "test": {
+    "scripts":{
+        "test-setup": "npm i",
+        "test": "mocha"
+    },
+      "env": {
+        "CLIENT_ID": "560768197808-mur1p64ibglu85dndtbrf7qhdioa82i6.apps.googleusercontent.com",
+        "CLIENT_SECRET": "7OOLrGhqBgWoO1XBVBXhGO8q",
+        "MONGO_URI": "mongodb+srv://admin-dominic:9HVyJXVoCT3VxcXx@cluster0.skmzw.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+      }
+    }
+  }
+}
