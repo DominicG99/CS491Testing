@@ -2,11 +2,11 @@ var request = require("request");
 var expect = require("chai").expect;
 var sinon = require("sinon");
 const passport = require("passport");
+const port = process.env.PORT || "http://localhost:3000";
 //Test Page Views.....
-var aut;
-
+console.log(port);
 it("Main page content", function (done) {
-  request("http://localhost:3000", function (error, response, body) {
+  request(port, function (error, response, body) {
     expect(body).to.equal("Home Page");
     expect(response.statusCode).to.equal(200);
     done();
@@ -14,7 +14,7 @@ it("Main page content", function (done) {
 });
 
 it("Login page content", function (done) {
-  request("http://localhost:3000/login", function (error, response, body) {
+  request(port + "/login", function (error, response, body) {
     expect(body).to.equal("Login Page");
     expect(response.statusCode).to.equal(200);
     done();
@@ -22,7 +22,7 @@ it("Login page content", function (done) {
 });
 
 it("Register page content", function (done) {
-  request("http://localhost:3000/register", function (error, response, body) {
+  request(port + "/register", function (error, response, body) {
     expect(body).to.equal("Register Page");
     expect(response.statusCode).to.equal(200);
     done();
@@ -32,7 +32,7 @@ it("Register page content", function (done) {
 it("Test Register Post", function (done) {
   request.post(
     {
-      url: "http://localhost:3000/register",
+      url: port + "/register",
       form: {
         username: "DominicG",
         password: "test123",
@@ -47,7 +47,7 @@ it("Test Register Post", function (done) {
 it("Test Delete User", function (done) {
   request.post(
     {
-      url: "http://localhost:3000/delete",
+      url: port + "/delete",
       form: {
         username: "DominicG",
       },
@@ -61,7 +61,7 @@ it("Test Delete User", function (done) {
 it("Testing Register Post Fail", function (done) {
   request.post(
     {
-      url: "http://localhost:3000/register",
+      url: port + "/register",
       form: {
         username: "",
         password: "",
@@ -78,7 +78,7 @@ it("Testing Register Post Fail", function (done) {
 it("Testing Login", function (done) {
   request.post(
     {
-      url: "http://localhost:3000/login",
+      url: port + "/login",
       form: {
         username: "admin",
         password: "admin",
@@ -91,7 +91,7 @@ it("Testing Login", function (done) {
   //Testing the failed login
   request.post(
     {
-      url: "http://localhost:3000/login",
+      url: port + "/login",
       form: {
         username: "admin",
         password: "admin2",
@@ -105,21 +105,21 @@ it("Testing Login", function (done) {
 });
 
 it("Testing Logout", function (done) {
-  request("http://localhost:3000/logout", function (error, response, body) {
+  request(port + "/logout", function (error, response, body) {
     expect(response.statusCode).to.equal(200);
     done();
   });
 });
 
 it("Testing Secrets Page", function (done) {
-  request("http://localhost:3000/secrets", function (error, response, body) {
+  request(port + "/secrets", function (error, response, body) {
     expect(response.statusCode).to.equal(200);
     done();
   });
 });
 
 it("Testing Submit Page", function (done) {
-  request("http://localhost:3000/submit", function (error, response, body) {
+  request(port + "/submit", function (error, response, body) {
     expect(body).to.equal("Login Page");
     expect(response.statusCode).to.equal(200);
     done();
@@ -130,14 +130,14 @@ it("Testing Submit Page", function (done) {
 it("Testing Login/Submit Integration", function (done) {
   request.post(
     {
-      url: "http://localhost:3000/login",
+      url: port + "/login",
       form: {
         username: "admin",
         password: "admin",
       },
     },
     function (err, response, body) {
-      request("http://localhost:3000/submit", function (error, response, body) {
+      request(port + "/submit", function (error, response, body) {
         expect(body).to.equal("Authenticated");
         expect(response.statusCode).to.equal(200);
         done();
@@ -149,7 +149,7 @@ it("Testing Login/Submit Integration", function (done) {
 it("Testing Submit Post Integration", function (done) {
   request.post(
     {
-      url: "http://localhost:3000/login",
+      url: port + "/login",
       form: {
         username: "admin",
         password: "admin",
@@ -159,7 +159,7 @@ it("Testing Submit Post Integration", function (done) {
       request
         .post(
           {
-            url: "http://localhost:3000/submit",
+            url: port + "/submit",
             form: {
               secret: "test secret",
             },
@@ -179,7 +179,7 @@ it("Testing Submit Post Integration", function (done) {
 it("Test Register/Login Integration", function (done) {
   request.post(
     {
-      url: "http://localhost:3000/register",
+      url: port + "/register",
       form: {
         username: "DominicG",
         password: "test123",
@@ -188,7 +188,7 @@ it("Test Register/Login Integration", function (done) {
     function (err, response, body) {
       request.post(
         {
-          url: "http://localhost:3000/login",
+          url: port + "/login",
           form: {
             username: "DominicG",
             password: "test123",
@@ -201,7 +201,7 @@ it("Test Register/Login Integration", function (done) {
       );
       request.post(
         {
-          url: "http://localhost:3000/delete",
+          url: port + "/delete",
           form: {
             username: "DominicG",
           },
