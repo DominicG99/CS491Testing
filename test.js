@@ -215,10 +215,10 @@ it("Test Register/Login Integration", function (done) {
         },
         function (err, response, body) {
           expect(response.statusCode).to.equal(302);
-          done();
         }
       );
       expect(response.statusCode).to.equal(302);
+      done();
     }
   );
 
