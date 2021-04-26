@@ -30,12 +30,12 @@ it("Login page content", function (done) {
 
 it("Register page content", function (done) {
   request(port + "/register", function (error, response, body) {
-    expect(body).to.equal("Register Page");
+    expect(body).to.equal("The Register Page");
     expect(response.statusCode).to.equal(200);
     done();
   });
 });
-
+//Test
 it("Test Register Post", function (done) {
   request.post(
     {
