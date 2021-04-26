@@ -23,7 +23,7 @@
   "devDependencies": {},
   "scripts": {
     "test": "mocha",
-    "start": "npm i && node app.js"
+    "start": "node app.js"
   },
   "keywords": [],
   "author": "",
