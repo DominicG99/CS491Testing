@@ -61,6 +61,7 @@ app.get("/login", function (req, res) {
 //Tested
 app.get("/register", function (req, res) {
   res.send("The Register Page");
+  //yo
   //res.render("register");
 });
 //Tested
