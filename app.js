@@ -60,7 +60,7 @@ app.get("/login", function (req, res) {
 });
 //Tested
 app.get("/register", function (req, res) {
-  res.send("Register Page");
+  res.send("The Register Page");
   //res.render("register");
 });
 //Tested
@@ -111,6 +111,7 @@ app.get("/logout", function (req, res) {
 });
 //Tested
 app.post("/register", function (req, res) {
+  console.log("Register");
   User.register(
     { username: req.body.username },
     req.body.password,
@@ -129,6 +130,7 @@ app.post("/register", function (req, res) {
 });
 //Tested
 app.post("/delete", function (req, res) {
+  console.log("Deleteing....");
   User.deleteOne({ username: req.body.username }, function (err, user) {
     if (err) {
       res.status(500).send("Something broke!");
@@ -140,6 +142,7 @@ app.post("/delete", function (req, res) {
 });
 //Tested
 app.post("/login", function (req, res) {
+  console.log("Login");
   const user = new User({
     username: req.body.username,
     password: req.body.password,
