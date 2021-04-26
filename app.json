@@ -2,8 +2,7 @@
   "environments": {
     "test": {
     "scripts":{
-        "test-setup": "npm i",
-        "setup-mocha": "npm i mocha -g",
+        "test-setup": ["npm i", "npm i mocha -g"],
         "test": "mocha"
     },
       "env": {
