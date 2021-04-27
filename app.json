@@ -3,7 +3,7 @@
     "test": {
     "scripts":{
         "test-setup": "npm i && npm i mocha -g",
-        "test": "mocha"
+        "test": "mocha --timeout 15000"
     },
       "env": {
         "CLIENT_ID": "560768197808-mur1p64ibglu85dndtbrf7qhdioa82i6.apps.googleusercontent.com",
